@@ -49,6 +49,9 @@ class Signals:
 	def gtk_close(self,widget,event=None):
 		Gtk.main_quit()
 
+	
+
+	########################################
 	def generateDirection(self,widget,event=None):
 		busnum=hello.route_cmb.get_active_text().split("-")[0]
 		hello.dir_cmb.get_model().clear()
@@ -71,6 +74,7 @@ class Signals:
 		hello.lbl1.set_text(nextStopsTimes[0]+"mins")
 		hello.lbl2.set_text(nextStopsTimes[1]+"mins")
 		hello.lbl3.set_text(nextStopsTimes[2]+"mins")
+	########################################
 
 		
 		
