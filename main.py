@@ -23,6 +23,10 @@ class Appgui:
 		self.stop_cmb=builder.get_object("stop_combo")
 		###
 
+		### info labels
+		self.lbl1=builder.get_object("info_label1")
+		### end info labels
+
 		#show all
 		#self.window.show_all()
 		builder.get_object("main_window").show_all()
@@ -53,6 +57,12 @@ class Signals:
 		hello.stop_cmb.get_model().clear()
 		for i in ParseData().getStops(busnum,dirNum):
 			hello.stop_cmb.append_text(str(i))
+
+	def printStopTimes(self,widget,event=None):
+		stopid=(hello.stop_cmb.get_active_text().split("[")[1])[:-1]
+		
+		nextStopsTimes=ParseData().getTimes(stopid)
+		hello.lbl1.set_text(nextStopsTimes[0])
 
 		
 		

@@ -6,9 +6,10 @@ import urllib
 #import easy to use xml parser called minidom:
 from xml.dom import minidom
 
-#All Routes List Data url
+#All List Data urls
 ROUTESLISTURL='http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=ttc'
 DIRECTIONTAGINFO ='http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=ttc&r='
+STOPIDURL='http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=ttc&stopId='
 
 class ParseData:
 	"""The class that gets the
@@ -32,7 +33,6 @@ class ParseData:
 		return directionarr
 
 	def getStops(self,route,dirNum):
-		stopArr=[]
 		stopStr=""
 		directions=self.getRouteDirection(route)
 
@@ -41,17 +41,25 @@ class ParseData:
 		for i in dom.getElementsByTagName('stop'):
 			try:
 				title=i.attributes['title'].value
-				if "_ar" in i.attributes['tag'].value:
-					stopStr=stopStr+" "+title+"|"
+				tag=i.attributes['stopId'].value
+				if "_ar" in tag:
+					stopStr=stopStr+title+" ["+tag+"]"+"|"
 				else:
-					stopStr=stopStr+" "+title+"!"
+					stopStr=stopStr+title+" ["+tag+"]"+"!"
 				#stopArr.append(stop)
 			except Exception:
 				continue
 
 		#print len(stopStr.split("|"))
+		#print stopStr.split("|")[dirNum].split("!")
+		return stopStr.split("|")[dirNum].split("!")
 
-		print stopStr.split("|")[dirNum]
+	def getTimes(self,stopId):
+		stopTimes=[]
+		dom=minidom.parse(urllib.urlopen(STOPIDURL+stopId))
 
+		for i in dom.getElementsByTagName('prediction'):
+			stopTimes.append(i.attributes['minutes'].value)
 
-		return stopArr
+		print stopTimes
+
