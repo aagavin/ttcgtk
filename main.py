@@ -64,9 +64,10 @@ class Signals:
 			hello.stop_cmb.append_text(str(i))
 
 	def printStopTimes(self,widget,event=None):
+		routeNum=(hello.route_cmb.get_active_text().split("-"))[0]
 		stopid=(hello.stop_cmb.get_active_text().split("[")[1])[:-1]
 		
-		nextStopsTimes=ParseData().getTimes(stopid)
+		nextStopsTimes=ParseData().getTimes(routeNum,stopid)
 		hello.lbl1.set_text(nextStopsTimes[0]+"mins")
 		hello.lbl2.set_text(nextStopsTimes[1]+"mins")
 		hello.lbl3.set_text(nextStopsTimes[2]+"mins")

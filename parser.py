@@ -1,5 +1,5 @@
 #!/usr/bin/env python2
-#
+# coding: utf-8
 
 #import library to do http requests:
 import urllib
@@ -9,8 +9,8 @@ from xml.dom import minidom
 #All List Data urls
 ROUTESLISTURL='http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=ttc'
 DIRECTIONTAGINFO ='http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=ttc&r='
-STOPIDURL='http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=ttc&stopId='
-
+#STOPIDURL='http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=ttc&stopId='
+STOPIDURL=['http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=ttc&r=', '&s=']
 class ParseData:
 	"""The class that gets the
 	requred data and returns it"""
@@ -34,30 +34,27 @@ class ParseData:
 
 	def getStops(self,route,dirNum):
 		stopStr=""
-		directions=self.getRouteDirection(route)
-
+		#directions=self.getRouteDirection(route)
 		dom=minidom.parse(urllib.urlopen(DIRECTIONTAGINFO+route))
 
 		for i in dom.getElementsByTagName('stop'):
 			try:
 				title=i.attributes['title'].value
 				tag=i.attributes['tag'].value
-				stopId=i.attributes['stopId'].value
-				print tag
+				#stopId=i.attributes['stopId'].value
 				if "_ar" in tag:
-					stopStr=stopStr+title+" ["+stopId+"]"+"|"
+					stopStr=stopStr+title+" ["+tag+"]"+"|"
 				else:
-					stopStr=stopStr+title+" ["+stopId+"]"+"!"
-			except Exception:
+					stopStr=stopStr+title+" ["+tag+"]"+"!"
+			except KeyError:
 				continue
 
-		print len(stopStr.split("|"))
 		#print stopStr.split("|")[dirNum].split("!")
 		return stopStr.split("|")[dirNum].split("!")
 
-	def getTimes(self,stopId):
+	def getTimes(self,routeNum,tagId):
 		stopTimes=[]
-		dom=minidom.parse(urllib.urlopen(STOPIDURL+stopId))
+		dom=minidom.parse(urllib.urlopen(STOPIDURL[0]+routeNum+STOPIDURL[1]+tagId))
 
 		for i in dom.getElementsByTagName('prediction'):
 			stopTimes.append(i.attributes['minutes'].value)
