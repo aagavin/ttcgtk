@@ -24,7 +24,12 @@ class Appgui:
 		###
 
 		### info labels
+		# first label
 		self.lbl1=builder.get_object("info_label1")
+		# second label
+		self.lbl2=builder.get_object("info_label2")
+		# tird label
+		self.lbl3=builder.get_object("info_label3")
 		### end info labels
 
 		#show all
@@ -62,7 +67,9 @@ class Signals:
 		stopid=(hello.stop_cmb.get_active_text().split("[")[1])[:-1]
 		
 		nextStopsTimes=ParseData().getTimes(stopid)
-		hello.lbl1.set_text(nextStopsTimes[0])
+		hello.lbl1.set_text(nextStopsTimes[0]+"mins")
+		hello.lbl2.set_text(nextStopsTimes[1]+"mins")
+		hello.lbl3.set_text(nextStopsTimes[2]+"mins")
 
 		
 		

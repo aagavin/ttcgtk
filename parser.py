@@ -41,16 +41,17 @@ class ParseData:
 		for i in dom.getElementsByTagName('stop'):
 			try:
 				title=i.attributes['title'].value
-				tag=i.attributes['stopId'].value
+				tag=i.attributes['tag'].value
+				stopId=i.attributes['stopId'].value
+				print tag
 				if "_ar" in tag:
-					stopStr=stopStr+title+" ["+tag+"]"+"|"
+					stopStr=stopStr+title+" ["+stopId+"]"+"|"
 				else:
-					stopStr=stopStr+title+" ["+tag+"]"+"!"
-				#stopArr.append(stop)
+					stopStr=stopStr+title+" ["+stopId+"]"+"!"
 			except Exception:
 				continue
 
-		#print len(stopStr.split("|"))
+		print len(stopStr.split("|"))
 		#print stopStr.split("|")[dirNum].split("!")
 		return stopStr.split("|")[dirNum].split("!")
 
@@ -61,5 +62,5 @@ class ParseData:
 		for i in dom.getElementsByTagName('prediction'):
 			stopTimes.append(i.attributes['minutes'].value)
 
-		print stopTimes
+		return stopTimes
 
