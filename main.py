@@ -72,7 +72,9 @@ class WinSignals:
 		hello.aboutdiag.hide()
 
 	def add_fav(self,widget,event=None):
-		Favs().add_fav()
+		stoptag=hello.stop_cmb.get_active_text().split("-")
+		stopName=hello.route_cmb.get_active_text()
+		hello.favs.add_fav(hello.stop_cmb.get_active_text(),stopName.split("-")[0],stoptag[1].replace("[","").replace("]",""))
 
 	def view_fav(self,widget,event=None):
 		hello.fav_win()

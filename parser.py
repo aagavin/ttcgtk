@@ -43,9 +43,9 @@ class ParseData:
 				tag=i.attributes['tag'].value
 				#stopId=i.attributes['stopId'].value
 				if "_ar" in tag:
-					stopStr=stopStr+title+" ["+tag+"]"+"|"
+					stopStr=stopStr+title+"-["+tag+"]"+"|"
 				else:
-					stopStr=stopStr+title+" ["+tag+"]"+"!"
+					stopStr=stopStr+title+"-["+tag+"]"+"!"
 			except KeyError:
 				continue
 

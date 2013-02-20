@@ -11,7 +11,9 @@ class Favs:
 		except IOError as e:
 			self.favlist=[]
 
-	def add_fav(self,data):
+	def add_fav(self,stopName,routeTag,stopTag):
+		data=stopName+"|"+routeTag+"|"+stopTag
+		print data
 		self.favlist.append(data)
 
 	def get_fav_list(self):
