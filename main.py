@@ -37,15 +37,15 @@ class Appgui:
 		#show all
 		self.window.show_all()
 		#builder.get_object("main_window").show_all()
-		#generate
-		self.generate()
+		#generate routs
+		self.generate_routs()
 
 		#about_dialog
 		self.aboutdiag=builder.get_object("about_dialog")
 		#get fav list
 		self.favs=Favs()
 
-	def generate(self):
+	def generate_routs(self):
 		""" generate """
 		for i in ParseData().getAllRoutesTitle():
 			self.route_cmb.append_text(str(i))
@@ -56,8 +56,16 @@ class Appgui:
 		#fav win
 		fav_win=fav_builder.get_object("fav_window")
 
+		#fav_cmb_box
+		self.fav_cmb_box=fav_builder.get_object("fav_cmb_box")
 		#Show All
 		fav_win.show_all()
+		#generate favourite
+		self.generate_favourite()
+
+	def generate_favourite(self):
+		for i in self.favs.get_fav_list():
+			self.fav_cmb_box.append_text(str(i))
 
 
 
@@ -65,6 +73,7 @@ class WinSignals:
 	"""docstring for Signals"""
 
 	def gtk_close(self,widget,event=None):
+		hello.favs.save_fav_list()
 		Gtk.main_quit()
 
 	def about_menu(self,widget,event=None):
@@ -74,7 +83,7 @@ class WinSignals:
 	def add_fav(self,widget,event=None):
 		stoptag=hello.stop_cmb.get_active_text().split("-")
 		stopName=hello.route_cmb.get_active_text()
-		hello.favs.add_fav(hello.stop_cmb.get_active_text(),stopName.split("-")[0],stoptag[1].replace("[","").replace("]",""))
+		hello.favs.add_fav(hello.stop_cmb.get_active_text().split("-")[0],stopName.split("-")[0],stoptag[1].replace("[","").replace("]",""))
 
 	def view_fav(self,widget,event=None):
 		hello.fav_win()
@@ -96,7 +105,10 @@ class WinSignals:
 
 	def printStopTimes(self,widget,event=None):
 		routeNum=(hello.route_cmb.get_active_text().split("-"))[0]
-		stopid=(hello.stop_cmb.get_active_text().split("[")[1])[:-1]
+		try:
+			stopid=(hello.stop_cmb.get_active_text().split("[")[1])[:-1]
+		except AttributeError:
+			pass
 		
 		nextStopsTimes=ParseData().getTimes(routeNum,stopid)
 		try:
