@@ -40,6 +40,8 @@ class Appgui:
 		#generate
 		self.generate()
 
+		#about_dialog
+		self.aboutdiag=builder.get_object("about_dialog")
 		#get fav list
 		self.favs=Favs()
 
@@ -64,6 +66,10 @@ class WinSignals:
 
 	def gtk_close(self,widget,event=None):
 		Gtk.main_quit()
+
+	def about_menu(self,widget,event=None):
+		hello.aboutdiag.run()
+		hello.aboutdiag.hide()
 
 	def add_fav(self,widget,event=None):
 		Favs().add_fav()
