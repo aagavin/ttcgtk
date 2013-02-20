@@ -4,6 +4,7 @@
   <object class="GtkWindow" id="main_window">
     <property name="width_request">400</property>
     <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Need a name</property>
     <property name="icon_name">applications-engineering</property>
     <signal name="destroy" handler="gtk_close" swapped="no"/>
     <signal name="delete-event" handler="gtk_close" swapped="no"/>
@@ -81,6 +82,16 @@
                         <property name="tooltip_text" translatable="yes">Add current stop as </property>
                         <property name="label" translatable="yes">Add to Favorites</property>
                         <property name="use_underline">True</property>
+                        <signal name="activate" handler="add_fav" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="fav_view">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Select/Edit Favorites</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="view_fav" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -250,7 +261,7 @@
                 <property name="homogeneous">True</property>
                 <child>
                   <object class="GtkButton" id="apply_button">
-                    <property name="label">gtk-apply</property>
+                    <property name="label">gtk-refresh</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>

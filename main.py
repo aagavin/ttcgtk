@@ -3,6 +3,8 @@
 
 from gi.repository import Gtk, Gdk#, GdkPixbuf
 from parser import ParseData
+from favlist import Favs
+
 #
 class Appgui:
 	"""docstring for Appgui"""
@@ -10,9 +12,9 @@ class Appgui:
 		#builder init stuff
 		builder=Gtk.Builder()
 		builder.add_from_file("ttc.glade")
-		builder.connect_signals(Signals())
+		builder.connect_signals(WinSignals())
 		#window
-		#self.window=builder.get_object("main_window")
+		self.window=builder.get_object("main_window")
 
 		### combo boxes
 		#route_combo
@@ -33,23 +35,41 @@ class Appgui:
 		### end info labels
 
 		#show all
-		#self.window.show_all()
-		builder.get_object("main_window").show_all()
+		self.window.show_all()
+		#builder.get_object("main_window").show_all()
 		#generate
 		self.generate()
 
-	""" generate """
+		#get fav list
+		self.favs=Favs()
+
 	def generate(self):
+		""" generate """
 		for i in ParseData().getAllRoutesTitle():
 			self.route_cmb.append_text(str(i))
 
-class Signals:
+	def fav_win(self):
+		fav_builder=Gtk.Builder()
+		fav_builder.add_from_file("fav.glade")
+		#fav win
+		fav_win=fav_builder.get_object("fav_window")
+
+		#Show All
+		fav_win.show_all()
+
+
+
+class WinSignals:
 	"""docstring for Signals"""
 
 	def gtk_close(self,widget,event=None):
 		Gtk.main_quit()
 
-	
+	def add_fav(self,widget,event=None):
+		Favs().add_fav()
+
+	def view_fav(self,widget,event=None):
+		hello.fav_win()
 
 	########################################
 	def generateDirection(self,widget,event=None):
@@ -71,9 +91,18 @@ class Signals:
 		stopid=(hello.stop_cmb.get_active_text().split("[")[1])[:-1]
 		
 		nextStopsTimes=ParseData().getTimes(routeNum,stopid)
-		hello.lbl1.set_text(nextStopsTimes[0]+"mins")
-		hello.lbl2.set_text(nextStopsTimes[1]+"mins")
-		hello.lbl3.set_text(nextStopsTimes[2]+"mins")
+		try:
+			hello.lbl1.set_text(nextStopsTimes[0]+"mins")
+		except IndexError:
+			hello.lbl1.set_text("...")
+		try:
+			hello.lbl2.set_text(nextStopsTimes[1]+"mins")
+		except IndexError:
+			hello.lbl2.set_text("...")
+		try:
+			hello.lbl3.set_text(nextStopsTimes[2]+"mins")
+		except IndexError:
+			hello.lbl3.set_text("...")
 	########################################
 
 		
