@@ -6,11 +6,17 @@ import cPickle as pickle
 class Favs:
 	"""docstring for Favs"""
 	def __init__(self):
-		self.favlist=[]
+		try:
+			self.favlist=pickle.load(open("fvlst.txt","rb"))
+		except IOError as e:
+			self.favlist=[]
 
 	def add_fav(self,data):
 		self.favlist.append(data)
 
 	def get_fav_list(self):
 		return self.favlist
+
+	def save_fav_list(self):
+		pickle.dump(self.favlist,open("fvlst.txt","wb"))
 		
