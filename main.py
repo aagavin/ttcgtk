@@ -34,16 +34,20 @@ class Appgui:
 		self.lbl3=builder.get_object("info_label3")
 		### end info labels
 
+		### statusbar
+		self.statbar=builder.get_object("statusbar")
+		###
+
 		#show all
 		self.window.show_all()
 		#builder.get_object("main_window").show_all()
-		#generate routs
-		self.generate_routs()
 
 		#about_dialog
 		self.aboutdiag=builder.get_object("about_dialog")
 		#get fav list
 		self.favs=Favs()
+		#generate routs
+		self.generate_routs()		
 
 	def generate_routs(self):
 		""" generate """
@@ -67,7 +71,15 @@ class Appgui:
 		for i in self.favs.get_fav_list():
 			self.fav_cmb_box.append_text(str(i))
 
-
+class FavSignals:
+	"""docstring for FavSignals"""
+	def add_as_def_fav(self,widget,event=None):
+		print ""
+		"""
+		stoptag=hello.stop_cmb.get_active_text().split("-")
+		stopName=hello.route_cmb.get_active_text()
+		hello.favs.add_def_fav(hello.stop_cmb.get_active_text().split("-")[0],stopName.split("-")[0],stoptag[1].replace("[","").replace("]",""))
+		"""
 
 class WinSignals:
 	"""docstring for Signals"""
@@ -80,10 +92,16 @@ class WinSignals:
 		hello.aboutdiag.run()
 		hello.aboutdiag.hide()
 
-	def add_fav(self,widget,event=None):
+	def add_fav(self,widget,event=None,data=None):
 		stoptag=hello.stop_cmb.get_active_text().split("-")
 		stopName=hello.route_cmb.get_active_text()
-		hello.favs.add_fav(hello.stop_cmb.get_active_text().split("-")[0],stopName.split("-")[0],stoptag[1].replace("[","").replace("]",""))
+		if type(widget)==Gtk.Button:
+			hello.favs.add_def_fav(hello.stop_cmb.get_active_text().split("-")[0],stopName.split("-")[0],stoptag[1].replace("[","").replace("]",""))
+			hello.statbar.set_text("Added as defalut favourite")
+		else:			
+			hello.favs.add_fav(hello.stop_cmb.get_active_text().split("-")[0],stopName.split("-")[0],stoptag[1].replace("[","").replace("]",""))
+			hello.statbar.set_text("Added as defalut favourite")
+
 
 	def view_fav(self,widget,event=None):
 		hello.fav_win()

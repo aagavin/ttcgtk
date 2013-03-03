@@ -177,7 +177,6 @@ Version 3, 29 June 2007
             <property name="margin_right">5</property>
             <property name="vexpand">True</property>
             <property name="orientation">vertical</property>
-            <property name="spacing">3</property>
             <child>
               <object class="GtkBox" id="routeBox">
                 <property name="visible">True</property>
@@ -282,6 +281,31 @@ Version 3, 29 June 2007
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="fave_button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="tooltip_markup" translatable="yes">Add as default Favorite!</property>
+                    <property name="halign">start</property>
+                    <property name="valign">start</property>
+                    <property name="margin_left">2</property>
+                    <property name="margin_right">2</property>
+                    <signal name="clicked" handler="add_fav" swapped="no"/>
+                    <child>
+                      <object class="GtkImage" id="image1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="stock">gtk-add</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
               </object>
@@ -402,11 +426,17 @@ Version 3, 29 June 2007
           </packing>
         </child>
         <child>
-          <object class="GtkStatusbar" id="statusbar">
+          <object class="GtkLabel" id="statusbar">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">2</property>
+            <property name="xalign">0.0099999997764825821</property>
+            <property name="label" translatable="yes">label</property>
+            <attributes>
+              <attribute name="font-desc" value="Sans Bold 9"/>
+              <attribute name="weight" value="bold"/>
+              <attribute name="foreground" value="#383838383838"/>
+              <attribute name="background" value="#d3d3d7d7cfcf"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>

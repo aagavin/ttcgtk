@@ -16,8 +16,14 @@ class Favs:
 		if data in self.favlist:
 			pass
 		else:
-			print data
 			self.favlist.append(data)
+
+	def add_def_fav(self,stopName,routeTag,stopTag):
+		data=stopName+"|"+routeTag+"|"+stopTag
+		if data in self.favlist:
+			pass
+		else:
+			self.favlist.insert(0,data)
 
 	def get_fav_list(self):
 		return self.favlist
