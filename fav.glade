@@ -54,10 +54,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button1">
+              <object class="GtkButton" id="delete_fav">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="tooltip_markup" translatable="yes">Delete current stop</property>
+                <signal name="clicked" handler="del_event" swapped="no"/>
                 <child>
                   <object class="GtkImage" id="image1">
                     <property name="visible">True</property>

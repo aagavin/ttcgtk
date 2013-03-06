@@ -57,12 +57,14 @@ class Appgui:
 	def fav_win(self):
 		fav_builder=Gtk.Builder()
 		fav_builder.add_from_file("fav.glade")
+		#connect
+		fav_builder.connect_signals(FavSignals())
 		#fav win
 		fav_win=fav_builder.get_object("fav_window")
 
 		#fav_cmb_box
 		self.fav_cmb_box=fav_builder.get_object("fav_cmb_box")
-		#Show All
+		#Show Azll
 		fav_win.show_all()
 		#generate favourite
 		self.generate_favourite()
@@ -74,12 +76,14 @@ class Appgui:
 class FavSignals:
 	"""docstring for FavSignals"""
 	def add_as_def_fav(self,widget,event=None):
-		print ""
 		"""
 		stoptag=hello.stop_cmb.get_active_text().split("-")
 		stopName=hello.route_cmb.get_active_text()
 		hello.favs.add_def_fav(hello.stop_cmb.get_active_text().split("-")[0],stopName.split("-")[0],stoptag[1].replace("[","").replace("]",""))
 		"""
+	def del_event(self,widget,event=None):
+		hello.fav_cmb_box.remove(hello.fav_cmb_box.get_active())
+		
 
 class WinSignals:
 	"""docstring for Signals"""
@@ -97,10 +101,10 @@ class WinSignals:
 		stopName=hello.route_cmb.get_active_text()
 		if type(widget)==Gtk.Button:
 			hello.favs.add_def_fav(hello.stop_cmb.get_active_text().split("-")[0],stopName.split("-")[0],stoptag[1].replace("[","").replace("]",""))
-			hello.statbar.set_text("Added as defalut favourite")
+			hello.statbar.set_text("Added as favourite")
 		else:			
 			hello.favs.add_fav(hello.stop_cmb.get_active_text().split("-")[0],stopName.split("-")[0],stoptag[1].replace("[","").replace("]",""))
-			hello.statbar.set_text("Added as defalut favourite")
+			hello.statbar.set_text("Added as favourite")
 
 
 	def view_fav(self,widget,event=None):
