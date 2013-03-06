@@ -5,6 +5,8 @@
 import urllib
 #import easy to use xml parser called minidom:
 from xml.dom import minidom
+#open a jar of pickles
+import cPickle as pickle
 
 #All List Data urls
 ROUTESLISTURL='http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=ttc'
@@ -19,9 +21,14 @@ class ParseData:
 
 	def getAllRoutesTitle(self):
 		routeArray=[]
-		dom=minidom.parse(urllib.urlopen(ROUTESLISTURL))
-		for i in dom.getElementsByTagName('route'):
-			routeArray.append(i.attributes['title'].value)
+		try:
+			routeArray=pickle.load(open("routelist.txt","rb"))
+		except IOError, e:
+			dom=minidom.parse(urllib.urlopen(ROUTESLISTURL))
+			for i in dom.getElementsByTagName('route'):
+				routeArray.append(i.attributes['title'].value)
+			pickle.dump(routeArray,open("routelist.txt","wb"))
+		
 		return routeArray
 
 
