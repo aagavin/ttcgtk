@@ -22,39 +22,46 @@ class ParseData:
 	def getAllRoutesTitle(self):
 		routeArray=[]
 		try:
-			routeArray=pickle.load(open("routelist.txt","rb"))
+			routeArray=pickle.load(open("./cache/routelist.txt","rb"))
 		except IOError, e:
 			dom=minidom.parse(urllib.urlopen(ROUTESLISTURL))
 			for i in dom.getElementsByTagName('route'):
 				routeArray.append(i.attributes['title'].value)
-			pickle.dump(routeArray,open("routelist.txt","wb"))
+			pickle.dump(routeArray,open("./cache/routelist.txt","wb"))
 		
 		return routeArray
 
 
 	def getRouteDirection(self,route):
 		directionarr=[]
-		dom=minidom.parse(urllib.urlopen(DIRECTIONTAGINFO+route))
-		for i in dom.getElementsByTagName('direction'):
-			directionarr.append(i.attributes['title'].value)
+		try:
+			directionarr=pickle.load(open("./cache/"+route+"direction.txt","rb"))
+		except IOError, e:
+			dom=minidom.parse(urllib.urlopen(DIRECTIONTAGINFO+route))
+			for i in dom.getElementsByTagName('direction'):
+				directionarr.append(i.attributes['title'].value)
+			pickle.dump(directionarr,open("./cache/"+route+"direction.txt","wb"))
 		return directionarr
 
 	def getStops(self,route,dirNum):
 		stopStr=""
-		#directions=self.getRouteDirection(route)
-		dom=minidom.parse(urllib.urlopen(DIRECTIONTAGINFO+route))
-
-		for i in dom.getElementsByTagName('stop'):
-			try:
-				title=i.attributes['title'].value
-				tag=i.attributes['tag'].value
-				#stopId=i.attributes['stopId'].value
-				if "_ar" in tag:
-					stopStr=stopStr+title+"-["+tag+"]"+"|"
-				else:
-					stopStr=stopStr+title+"-["+tag+"]"+"!"
-			except KeyError:
-				continue
+		try:
+			stopStr=pickle.load(open("./cache/stops."+str(route)+"."+str(dirNum)+".txt","rb"))
+		except IOError, e:
+			#directions=self.getRouteDirection(route)
+			dom=minidom.parse(urllib.urlopen(DIRECTIONTAGINFO+route))
+			for i in dom.getElementsByTagName('stop'):
+				try:
+					title=i.attributes['title'].value
+					tag=i.attributes['tag'].value
+					#stopId=i.attributes['stopId'].value
+					if "_ar" in tag:
+						stopStr=stopStr+title+"-["+tag+"]"+"|"
+					else:
+						stopStr=stopStr+title+"-["+tag+"]"+"!"
+				except KeyError:
+					continue
+			pickle.dump(stopStr,open("./cache/stops."+str(route)+"."+str(dirNum)+".txt","wb"))
 
 		#print stopStr.split("|")[dirNum].split("!")
 		return stopStr.split("|")[dirNum].split("!")

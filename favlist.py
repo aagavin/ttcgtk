@@ -7,7 +7,7 @@ class Favs:
 	"""docstring for Favs"""
 	def __init__(self):
 		try:
-			self.favlist=pickle.load(open("fvlst.txt","rb"))
+			self.favlist=pickle.load(open("./cache/fvlst.txt","rb"))
 		except IOError as e:
 			self.favlist=[]
 
@@ -29,5 +29,5 @@ class Favs:
 		return self.favlist
 
 	def save_fav_list(self):
-		pickle.dump(self.favlist,open("fvlst.txt","wb"))
+		pickle.dump(self.favlist,open("./cache/fvlst.txt","wb"))
 		
