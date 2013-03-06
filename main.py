@@ -101,7 +101,7 @@ class WinSignals:
 		stopName=hello.route_cmb.get_active_text()
 		if type(widget)==Gtk.Button:
 			hello.favs.add_def_fav(hello.stop_cmb.get_active_text().split("-")[0],stopName.split("-")[0],stoptag[1].replace("[","").replace("]",""))
-			hello.statbar.set_text("Added as favourite")
+			hello.statbar.set_text("Added as default favourite")
 		else:			
 			hello.favs.add_fav(hello.stop_cmb.get_active_text().split("-")[0],stopName.split("-")[0],stoptag[1].replace("[","").replace("]",""))
 			hello.statbar.set_text("Added as favourite")
